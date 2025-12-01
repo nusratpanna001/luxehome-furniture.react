@@ -7,6 +7,11 @@ import Footer from '../components/layout/Footer';
 import Input from '../components/ui/Input';
 import Select from '../components/ui/Select';
 
+function usdToBdt(usd) {
+  const rate = 110; // Example: 1 USD = 110 BDT
+  return Math.round(usd * rate);
+}
+
 function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -253,9 +258,9 @@ function ProductsPage() {
         
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-lg font-bold text-gray-900">${product.price}</span>
+            <span className="text-lg font-bold text-gray-900">৳{usdToBdt(product.price)}</span>
             {product.originalPrice && (
-              <span className="text-sm text-gray-500 line-through ml-2">${product.originalPrice}</span>
+              <span className="text-sm text-gray-500 line-through ml-2">৳{usdToBdt(product.originalPrice)}</span>
             )}
           </div>
           <Button
@@ -309,9 +314,9 @@ function ProductsPage() {
         
         <div className="text-right">
           <div className="mb-3">
-            <span className="text-xl font-bold text-gray-900">${product.price}</span>
+            <span className="text-xl font-bold text-gray-900">৳{usdToBdt(product.price)}</span>
             {product.originalPrice && (
-              <span className="text-sm text-gray-500 line-through block">${product.originalPrice}</span>
+              <span className="text-sm text-gray-500 line-through block">৳{usdToBdt(product.originalPrice)}</span>
             )}
           </div>
           <Button

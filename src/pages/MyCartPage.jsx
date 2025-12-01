@@ -5,6 +5,11 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Footer from '../components/layout/Footer';
 
+function usdToBdt(usd) {
+  const rate = 110; // Example: 1 USD = 110 BDT
+  return Math.round(usd * rate);
+}
+
 function MyCartPage() {
   const [cartItems, setCartItems] = useState([
     {
@@ -166,7 +171,7 @@ function MyCartPage() {
                             <div>
                               <h3 className="font-semibold text-lg text-gray-900 mb-1">{item.name}</h3>
                               <p className="text-gray-600 text-sm mb-2">Category: {item.category}</p>
-                              <p className="text-2xl font-bold text-amber-700">${item.price}</p>
+                              <p className="text-2xl font-bold text-amber-700">৳{usdToBdt(item.price)}</p>
                               {!item.inStock && (
                                 <p className="text-red-600 text-sm font-medium mt-1">Out of Stock</p>
                               )}
@@ -216,7 +221,7 @@ function MyCartPage() {
                           {/* Item Total */}
                           <div className="mt-3 text-right sm:text-left">
                             <p className="text-sm text-gray-600">
-                              Subtotal: <span className="font-semibold text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                              Subtotal: <span className="font-semibold text-gray-900">৳{usdToBdt(item.price * item.quantity)}</span>
                             </p>
                           </div>
                         </div>
@@ -249,11 +254,11 @@ function MyCartPage() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span>Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                      <span>৳{usdToBdt(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Tax (8%)</span>
-                      <span>${tax.toFixed(2)}</span>
+                      <span>৳{usdToBdt(tax)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Shipping</span>
@@ -261,19 +266,19 @@ function MyCartPage() {
                         {shipping === 0 ? (
                           <span className="text-green-600 font-medium">Free</span>
                         ) : (
-                          `$${shipping.toFixed(2)}`
+                          `৳${usdToBdt(shipping)}`
                         )}
                       </span>
                     </div>
                     <hr />
                     <div className="flex justify-between text-xl font-bold">
                       <span>Total</span>
-                      <span className="text-amber-700">${total.toFixed(2)}</span>
+                      <span className="text-amber-700">৳{usdToBdt(total)}</span>
                     </div>
 
                     {shipping > 0 && (
                       <p className="text-sm text-gray-600 bg-amber-50 p-3 rounded-lg">
-                        Add ${(500 - subtotal).toFixed(2)} more for free shipping!
+                        Add ৳{usdToBdt(500 - subtotal)} more for free shipping!
                       </p>
                     )}
 
@@ -300,7 +305,7 @@ function MyCartPage() {
                             <Star className="text-amber-400 fill-current" size={12} />
                             <span className="text-xs text-gray-600">{product.rating}</span>
                           </div>
-                          <p className="font-bold text-amber-700">${product.price}</p>
+                          <p className="font-bold text-amber-700">৳{usdToBdt(product.price)}</p>
                         </div>
                         <Button size="sm" variant="outline" className="self-center">
                           Add

@@ -150,32 +150,7 @@ function AboutUsPage() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-16 md:py-20 px-6 md:px-10">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-            The passionate individuals behind LuxeHome's success, dedicated to bringing you the finest furniture experiences.
-          </p>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-amber-700 font-medium mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Team Section removed as requested. */}
 
       {/* Stats Section */}
       <section className="bg-amber-50 py-16 md:py-20 px-6 md:px-10">

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRef } from 'react';
-import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ShoppingCart, Search } from 'lucide-react';
 import { LOGO_URL } from '../lib/constants';
 import Footer from '../components/layout/Footer';
 import Button from '../components/ui/Button';
@@ -37,7 +37,7 @@ function LandingPage() {
     {
       name: 'Velvet Boucle Accent Chair',
       price: 344.99,
-      image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=600&q=80',
+      image: 'img/shelf.jpeg',
     },
     {
       name: 'Shelf',
@@ -58,12 +58,12 @@ function LandingPage() {
 
   return (
     <div className="bg-white text-gray-800 font-sans">
-  {/* Navbar */}
-  <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
+      {/* Navbar */}
+      <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 items-center py-3">
             <div className="flex items-center">
-              <img src="img/logo.png" alt="logo" className="w-10 h-10 md:w-14 md:h-14" />
+              <img src="img/logo.png" alt="logo" className="w-8 h-8 md:w-12 md:h-12" />
             </div>
 
             <nav className="hidden md:flex justify-center space-x-4">
@@ -74,12 +74,15 @@ function LandingPage() {
             </nav>
 
             <div className="flex items-center justify-end space-x-2">
+              {/* Search icon only */}
+              <button className="hidden md:flex items-center justify-center p-2 rounded-full hover:bg-gray-200" aria-label="Search">
+                <Search size={20} className="text-gray-600" />
+              </button>
               <Link to="/my-cart">
                 <Button size="sm" className="text-xs flex items-center p-2 bg-amber-600 text-white hover:bg-amber-700" aria-label="My Cart">
                   <ShoppingCart size={16} />
                 </Button>
               </Link>
-
               <Link to="/login">
                 <Button size="sm" className="text-xs px-3 py-1">Login</Button>
               </Link>

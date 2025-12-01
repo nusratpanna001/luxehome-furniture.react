@@ -203,6 +203,13 @@ export const mockDashboardData = {
 
 // Mock Service
 export const mockService = {
+  categories: {
+    list: () => Promise.resolve({ data: [
+      { name: 'Bed' },
+      { name: 'Sofa' },
+      { name: 'Chair' }
+    ] })
+  },
   products: {
     list: () => Promise.resolve({ data: mockProducts }),
     get: (id) => Promise.resolve({ data: mockProducts.find(p => p.id === id) }),

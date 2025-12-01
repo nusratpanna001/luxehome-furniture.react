@@ -48,21 +48,21 @@ function HomePage() {
 
   const testimonials = [
     {
-      name: 'Sarah Mitchell',
+      name: 'Mim',
       role: 'Homeowner',
       content: 'LuxeHome transformed our living space completely. The quality and service exceeded our expectations.',
       avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=150&q=80',
       rating: 5
     },
     {
-      name: 'John Peterson',
+      name: 'Noor',
       role: 'Interior Designer',
       content: 'I regularly recommend LuxeHome to my clients. Their furniture quality and design aesthetic is unmatched.',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
       rating: 5
     },
     {
-      name: 'Emily Chen',
+      name: 'Badhon',
       role: 'Restaurant Owner',
       content: 'Their commercial furniture solutions helped us create the perfect ambiance for our restaurant.',
       avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80',

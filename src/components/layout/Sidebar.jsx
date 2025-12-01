@@ -30,7 +30,7 @@ const iconMap = {
 // ✅ Static routes accessible to everyone
 const routes = [
   { path: '/dashboard', name: 'Dashboard', icon: 'LayoutDashboard' },
-  { path: '/inventory', name: 'Categories', icon: 'Package' },
+  { path: '/admin-categories', name: 'Categories', icon: 'Package' },
   { path: '/admin-products', name: 'Products', icon: 'Package' },
   { path: '/orders', name: 'Orders', icon: 'ShoppingCart' },
   { path: '/reports', name: 'Reports', icon: 'BarChart3' },

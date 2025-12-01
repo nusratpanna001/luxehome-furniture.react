@@ -1,113 +1,57 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { api } from '../lib/apiClient';
-import { ROLES } from '../lib/constants';
+import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const useMock = import.meta.env.VITE_USE_MOCK === 'true';
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    const token = localStorage.getItem('auth_token');
-    const savedUser = localStorage.getItem('user');
-
-    if (token && savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error('Failed to parse saved user:', error);
-        logout();
-      }
-    }
-    setLoading(false);
-  };
-
-  const login = async (credentials) => {
+  const login = async ({ email, password }) => {
     try {
-      if (useMock) {
-        // Mock login
-        const mockUser = {
-          id: '1',
-          name: 'Admin User',
-          email: credentials.email,
-          role: ROLES.ADMIN,
-        };
-        const mockToken = 'mock-jwt-token-' + Date.now();
-        
-        localStorage.setItem('auth_token', mockToken);
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        setUser(mockUser);
-        
-        return { user: mockUser, token: mockToken };
+      const response = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
       }
 
-      const response = await api.auth.login(credentials);
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      setUser(response.user);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  };
+      setUser(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-  const register = async (userData) => {
-    try {
-      if (useMock) {
-        // Mock registration
-        const mockUser = {
-          id: Date.now().toString(),
-          name: userData.name,
-          email: userData.email,
-          role: ROLES.CUSTOMER,
-        };
-        const mockToken = 'mock-jwt-token-' + Date.now();
-        
-        localStorage.setItem('auth_token', mockToken);
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        setUser(mockUser);
-        
-        return { user: mockUser, token: mockToken };
-      }
-
-      const response = await api.auth.register(userData);
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      setUser(response.user);
-      return response;
-    } catch (error) {
-      throw error;
+      return data;
+    } catch (err) {
+      throw new Error(err.message || "Login failed");
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user');
     setUser(null);
+    localStorage.removeItem("user");
   };
 
-  const value = {
-    user,
-    loading,
-    login,
-    register,
-    logout,
-    isAuthenticated: !!user,
+  const hasRole = (role) => {
+    if (!user) return false;
+    const roles = Array.isArray(role) ? role : [role];
+    return roles.includes(user.role);
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+  return (
+    <AuthContext.Provider
+      value={{ user, login, logout, isAuthenticated: !!user, hasRole }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
-  return context;
-}
+export const useAuth = () => useContext(AuthContext);

@@ -1,8 +1,6 @@
-import { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
-
-import AppRoutes from './routes';
-import LoadingSpinner from './components/ui/LoadingSpinner';
+import React, { Suspense } from "react";
+import AppRoutes from "./routes";
+import LoadingSpinner from "./components/ui/LoadingSpinner";
 
 function App() {
   return (

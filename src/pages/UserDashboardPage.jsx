@@ -83,7 +83,7 @@ function UserDashboardPage() {
               </div>
 
               <div className="text-right">
-                <p className="font-bold text-lg text-amber-700">${order.total.toFixed(2)}</p>
+                <p className="font-bold text-lg text-amber-700">৳{Math.round(order.total * 110)}</p>
                 <div className={`inline-block mt-2 px-2 py-1 rounded-md text-sm font-medium ${statusColor}`}>{order.status}</div>
                 <div className="mt-3">
                   <Link to={`/orders/${order.id}`}>
@@ -110,7 +110,7 @@ function UserDashboardPage() {
               className="w-full h-48 object-cover mb-4"
             />
             <h3 className="font-semibold text-lg mb-2">{item.name}</h3>
-            <p className="text-2xl font-bold text-amber-700 mb-3">${item.price}</p>
+            <p className="text-2xl font-bold text-amber-700 mb-3">৳{Math.round(item.price * 110)}</p>
             <div className="flex gap-2">
               <Button 
                 size="sm" 
