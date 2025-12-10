@@ -1,3 +1,6 @@
+export function formatCurrencyBDT(amount) {
+  return '৳' + Math.round(amount * 110);
+}
 import { clsx } from 'clsx';
 
 export function cn(...inputs) {

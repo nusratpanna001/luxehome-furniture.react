@@ -11,6 +11,17 @@ import { useLocation } from 'react-router-dom';
 function UserDashboardPage() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('orders');
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [profile, setProfile] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    address: user?.address || ''
+  });
+  const [editName, setEditName] = useState(profile.name);
+  const [editEmail, setEditEmail] = useState(profile.email);
+  const [editPhone, setEditPhone] = useState(profile.phone);
+  const [editAddress, setEditAddress] = useState(profile.address);
 
   // Mock data for demonstration
   const userOrders = [
@@ -132,54 +143,74 @@ function UserDashboardPage() {
   const renderProfile = () => (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">My Profile</h2>
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="max-w-xl mx-auto">
         <Card title="Personal Information">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <User className="text-amber-600" size={20} />
               <div>
                 <p className="font-medium">Full Name</p>
-                <p className="text-gray-600">{user?.name || 'John Doe'}</p>
+                <p className="text-gray-600">{profile.name || 'John Doe'}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="text-amber-600" size={20} />
               <div>
                 <p className="font-medium">Email Address</p>
-                <p className="text-gray-600">{user?.email || 'john.doe@example.com'}</p>
+                <p className="text-gray-600">{profile.email || 'john.doe@example.com'}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="text-amber-600" size={20} />
               <div>
                 <p className="font-medium">Phone Number</p>
-                <p className="text-gray-600">+880 1234-567890</p>
+                <p className="text-gray-600">{profile.phone || '+880 1234-567890'}</p>
               </div>
             </div>
-            <Button size="sm" className="flex items-center gap-2">
-              <Edit3 size={16} />
-              Edit Profile
-            </Button>
-          </div>
-        </Card>
-
-        <Card title="Address Information">
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
+            <div className="flex items-center gap-3">
               <MapPin className="text-amber-600 mt-1" size={20} />
               <div>
                 <p className="font-medium">Delivery Address</p>
-                <p className="text-gray-600">
-                  123 Furniture Street<br />
-                  Dhaka 1215<br />
-                  Bangladesh
-                </p>
+                <p className="text-gray-600">{profile.address || '1234 Elm Street, Apt 567, Dhaka, Bangladesh'}</p>
               </div>
             </div>
-            <Button size="sm" className="flex items-center gap-2">
+            <Button size="sm" className="flex items-center gap-2" onClick={() => setShowEditProfile(true)}>
               <Edit3 size={16} />
-              Edit Address
+              Edit Profile
             </Button>
+            {showEditProfile && (
+              <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                  <h3 className="text-lg font-bold mb-4">Edit Profile</h3>
+                  <form onSubmit={e => {
+                    e.preventDefault();
+                    setProfile({ name: editName, email: editEmail, phone: editPhone, address: editAddress });
+                    setShowEditProfile(false);
+                  }}>
+                    <div className="mb-3">
+                      <label className="block text-sm font-medium mb-1">Full Name</label>
+                      <input type="text" className="w-full border rounded px-3 py-2" value={editName} onChange={e => setEditName(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                      <label className="block text-sm font-medium mb-1">Email Address</label>
+                      <input type="email" className="w-full border rounded px-3 py-2" value={editEmail} onChange={e => setEditEmail(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                      <label className="block text-sm font-medium mb-1">Phone Number</label>
+                      <input type="text" className="w-full border rounded px-3 py-2" value={editPhone} onChange={e => setEditPhone(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                      <label className="block text-sm font-medium mb-1">Delivery Address</label>
+                      <input type="text" className="w-full border rounded px-3 py-2" value={editAddress} onChange={e => setEditAddress(e.target.value)} />
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <Button type="submit" size="sm" className="bg-amber-600 text-white">Save</Button>
+                      <Button type="button" size="sm" variant="outline" onClick={() => setShowEditProfile(false)}>Cancel</Button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         </Card>
       </div>

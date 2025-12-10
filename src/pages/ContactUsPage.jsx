@@ -4,6 +4,7 @@ import { ArrowLeft, Mail, Phone, MapPin, Clock, Send, MessageCircle, Users, Awar
 import { LOGO_URL } from '../lib/constants';
 import Button from '../components/ui/Button';
 import Footer from '../components/layout/Footer';
+import NavBar from '../components/layout/NavBar';
 
 const contactInfo = [
   {
@@ -36,7 +37,7 @@ function ContactUsPage() {
   return (
     <div>
       {/* Navbar (compact) */}
-      <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
+      {/* <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 items-center py-2">
             <div className="flex items-center">
@@ -60,7 +61,9 @@ function ContactUsPage() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
+
+      <NavBar />
 
       {/* Hero Section */}
       <section

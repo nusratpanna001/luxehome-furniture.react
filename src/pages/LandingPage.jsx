@@ -1,12 +1,23 @@
-import { Link } from 'react-router-dom';
-import { useRef } from 'react';
-import { ChevronLeft, ChevronRight, ShoppingCart, Search } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, ShoppingCart, Search, LogOut } from 'lucide-react';
 import { LOGO_URL } from '../lib/constants';
 import Footer from '../components/layout/Footer';
 import Button from '../components/ui/Button';
+import { useAuth } from '../contexts/AuthContext';
+import NavBar from '../components/layout/NavBar';
 
 function LandingPage() {
   const productContainerRef = useRef(null);
+
+  const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const [showUserMenu, setShowUserMenu] = useState(false);
+  
+    const handleLogout = () => {
+      logout();
+      navigate('/login');
+    };
 
   const scrollProducts = (direction) => {
     if (productContainerRef.current) {
@@ -32,7 +43,8 @@ function LandingPage() {
     {
       name: 'Platinum Velvet Accent Chair ',
       price: 244.99,
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80'
+      ,
     },
     {
       name: 'Velvet Boucle Accent Chair',
@@ -59,37 +71,8 @@ function LandingPage() {
   return (
     <div className="bg-white text-gray-800 font-sans">
       {/* Navbar */}
-      <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-3 items-center py-3">
-            <div className="flex items-center">
-              <img src="img/logo.png" alt="logo" className="w-8 h-8 md:w-12 md:h-12" />
-            </div>
+      <NavBar />
 
-            <nav className="hidden md:flex justify-center space-x-4">
-              <Link to="/home" className="text-gray-700 hover:text-amber-700 font-medium text-sm">Home</Link>
-              <Link to="/about-us" className="text-gray-700 hover:text-amber-700 font-medium text-sm">About Us</Link>
-              <Link to="/products" className="text-gray-700 hover:text-amber-700 font-medium text-sm">Products</Link>
-              <Link to="/contact-us" className="text-gray-700 hover:text-amber-700 font-medium text-sm">Contact Us</Link>
-            </nav>
-
-            <div className="flex items-center justify-end space-x-2">
-              {/* Search icon only */}
-              <button className="hidden md:flex items-center justify-center p-2 rounded-full hover:bg-gray-200" aria-label="Search">
-                <Search size={20} className="text-gray-600" />
-              </button>
-              <Link to="/my-cart">
-                <Button size="sm" className="text-xs flex items-center p-2 bg-amber-600 text-white hover:bg-amber-700" aria-label="My Cart">
-                  <ShoppingCart size={16} />
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button size="sm" className="text-xs px-3 py-1">Login</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section
@@ -100,11 +83,23 @@ function LandingPage() {
         }}
       >
         <div className="bg-white bg-opacity-70 px-6 md:px-10 py-6 md:py-8 rounded-md text-center mx-4">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-8">
             Precise Concept Design <br className="hidden md:block" /> for Stylish Living
           </h2>
+            <div className="flex justify-center mt-8">
+              <a href="/products">
+                <button
+                  className="px-10 py-4 rounded-lg text-white font-semibold text-lg shadow-md bg-gradient-to-r from-amber-500 to-amber-700 hover:from-amber-600 hover:to-amber-800 transition-all duration-300"
+                >
+                  Explore Our Collection
+                </button>
+              </a>
+            </div>
         </div>
       </section>
+
+      {/* ...existing code... */}
+  {/* ...existing code... */}
 
       {/* Categories */}
       <section className="py-12 md:py-16 text-center px-4 md:px-8">
@@ -168,25 +163,42 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section
-        className="relative bg-cover bg-center py-16 md:py-20 px-4 md:px-6"
-        style={{
-          backgroundImage:
-            "url('img/bedroom.jpeg')",
-        }}
-      >
-        <div className="bg-black bg-opacity-60 max-w-xl mx-auto p-6 md:p-8 rounded-lg text-center text-white">
-          <h4 className="text-xl md:text-2xl font-semibold mb-2">Comfort Craft Sofa</h4>
-          <p className="text-sm mb-4">Get 25% OFF on modern sofa collections</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="px-4 py-2 rounded-md text-gray-800 w-full sm:w-60"
-              aria-label="Email address"
-            />
-            <Button size="sm">Subscribe</Button>
+
+
+      {/* Why Choose LuxeHome Section (moved before Footer) */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4">Why Choose LuxeHome?</h2>
+          <p className="text-center text-gray-600 mb-12 text-lg">We are committed to providing exceptional furniture and unparalleled service to make your home truly luxurious.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center text-center">
+              <span className="mb-6 text-amber-700">
+                <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 17v-1a5 5 0 00-10 0v1"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <h3 className="font-bold text-xl mb-2">Premium Quality</h3>
+              <p className="text-gray-600">Handcrafted furniture made with the finest materials and attention to detail.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center text-center">
+              <span className="mb-6 text-amber-700">
+                <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 13h2l1 9h12l1-9h2"/><path d="M5 13V7a2 2 0 012-2h10a2 2 0 012 2v6"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg>
+              </span>
+              <h3 className="font-bold text-xl mb-2">Free Delivery</h3>
+              <p className="text-gray-600">Complimentary delivery service within 50 miles of our showroom location.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center text-center">
+              <span className="mb-6 text-amber-700">
+                <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 17v-5"/><path d="M12 7h.01"/><circle cx="12" cy="12" r="10"/></svg>
+              </span>
+              <h3 className="font-bold text-xl mb-2">Quality Guarantee</h3>
+              <p className="text-gray-600">All our products come with comprehensive warranty and quality assurance.</p>
+            </div>
+            <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center text-center">
+              <span className="mb-6 text-amber-700">
+                <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 15v-2a4 4 0 018 0v2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
+              </span>
+              <h3 className="font-bold text-xl mb-2">24/7 Support</h3>
+              <p className="text-gray-600">Round-the-clock customer service to assist with all your furniture needs.</p>
+            </div>
           </div>
         </div>
       </section>

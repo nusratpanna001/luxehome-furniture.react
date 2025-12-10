@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useCart } from '../contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Heart, Star, ShoppingCart } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Footer from '../components/layout/Footer';
+import NavBar from '../components/layout/NavBar';
 
 function usdToBdt(usd) {
   const rate = 110; // Example: 1 USD = 110 BDT
@@ -11,57 +13,10 @@ function usdToBdt(usd) {
 }
 
 function MyCartPage() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Modern Velvet Sofa',
-      price: 1299.99,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80',
-      inStock: true,
-      category: 'Sofa'
-    },
-    {
-      id: 2,
-      name: 'Coffee Table - Oak Wood',
-      price: 449.99,
-      quantity: 2,
-      image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&q=80',
-      inStock: true,
-      category: 'Table'
-    },
-    {
-      id: 3,
-      name: 'Accent Chair - Beige',
-      price: 599.99,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=400&q=80',
-      inStock: true,
-      category: 'Chair'
-    },
-    {
-      id: 4,
-      name: 'Wooden Bookshelf',
-      price: 299.99,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=400&q=80',
-      inStock: false,
-      category: 'Storage'
-    }
-  ]);
+  const { cartItems, updateQuantity, removeItem } = useCart();
+  const navigate = useNavigate();
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
+  // updateQuantity and removeItem now come from context
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.08; // 8% tax
@@ -95,7 +50,7 @@ function MyCartPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Navbar (compact) */}
-      <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
+      {/* <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 items-center py-2">
             <div className="flex items-center">
@@ -121,7 +76,9 @@ function MyCartPage() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
+
+      <NavBar />
 
       {/* Main Content */}
       <div className="pt-24 pb-12">
@@ -282,7 +239,10 @@ function MyCartPage() {
                       </p>
                     )}
 
-                    <Button className="w-full mt-6 flex items-center justify-center gap-2">
+                    <Button
+                      className="w-full mt-6 flex items-center justify-center gap-2"
+                      onClick={() => navigate('/checkout')}
+                    >
                       Proceed to Checkout
                       <ArrowRight size={16} />
                     </Button>

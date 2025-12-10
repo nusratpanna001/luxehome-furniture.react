@@ -3,6 +3,8 @@ import { ArrowLeft, Users, Award, Heart, Target, ShoppingCart } from 'lucide-rea
 import { LOGO_URL } from '../lib/constants';
 import Button from '../components/ui/Button';
 import Footer from '../components/layout/Footer';
+import Topbar from '../components/layout/Topbar';
+import NavBar from '../components/layout/NavBar';
 
 function AboutUsPage() {
   const teamMembers = [
@@ -58,7 +60,7 @@ function AboutUsPage() {
   return (
     <div className="bg-white text-gray-800 font-sans">
       {/* Navbar (compact) */}
-      <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
+      {/* <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 items-center py-2">
             <div className="flex items-center">
@@ -84,7 +86,9 @@ function AboutUsPage() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
+
+      <NavBar />
 
       {/* Hero Section */}
       <section

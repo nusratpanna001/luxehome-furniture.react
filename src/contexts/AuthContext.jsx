@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -7,6 +7,14 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
+
+  // 🔥 FIX: Reload হলে user restore হবে
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && !user) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = async ({ email, password }) => {
     try {

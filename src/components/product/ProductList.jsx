@@ -3,7 +3,7 @@ import Table from '../ui/Table';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import { usePagination } from '../../hooks/usePagination';
-import { formatCurrency } from '../../lib/utils';
+import { formatCurrencyBDT } from '../../lib/utils';
 import { LOW_STOCK_THRESHOLD } from '../../lib/constants';
 
 function ProductList({ products, onEdit, onDelete, loading }) {
@@ -42,7 +42,7 @@ function ProductList({ products, onEdit, onDelete, loading }) {
     {
       header: 'Price',
       accessor: 'price',
-      render: (row) => <span className="font-semibold">{formatCurrency(row.price)}</span>,
+      render: (row) => <span className="font-semibold">{formatCurrencyBDT(row.price)}</span>,
     },
     {
       header: 'Stock',

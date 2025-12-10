@@ -8,7 +8,7 @@ export const ROLES = {
 // Application Info
 export const APP_NAME = 'LuxeHome Furniture';
 // Use the local project logo so admin and landing page match
-export const LOGO_URL = 'img/logo.png';
+export const LOGO_URL = 'assets/logo.png';
 
 // Order Statuses
 export const ORDER_STATUS = {

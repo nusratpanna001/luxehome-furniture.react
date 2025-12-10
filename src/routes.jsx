@@ -7,7 +7,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AdminCategoriesPage from "./pages/AdminCategoriesPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
-import SuppliersPage from "./pages/SuppliersPage";
+// import SuppliersPage from "./pages/SuppliersPage";
 import PurchasesPage from "./pages/PurchasesPage";
 import ReportsPage from "./pages/ReportsPage";
 
@@ -16,11 +16,13 @@ import UserDashboardPage from "./pages/UserDashboardPage";
 
 // Public pages
 import LandingPage from "./pages/LandingPage";
-import HomePage from "./pages/HomePage";
+// import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import ProductsPage from "./pages/ProductsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import MyCartPage from "./pages/MyCartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 // Auth pages
 import LoginPage from "./pages/LoginPage";
@@ -36,9 +38,11 @@ function AppRoutes() {
     <Routes>
       {/* Public pages */}
       <Route path="/" element={<LandingPage />} />
-      <Route path="/home" element={<HomePage />} />
+      {/* <Route path="/home" element={<HomePage />} /> */}
+      <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/about-us" element={<AboutUsPage />} />
       <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductDetailsPage />} />
       <Route path="/contact-us" element={<ContactUsPage />} />
       <Route path="/my-cart" element={<MyCartPage />} />
 
@@ -74,7 +78,7 @@ function AppRoutes() {
       } />
       <Route path="/suppliers" element={
         <ProtectedRoute requiredRole="admin">
-          <AppLayout><SuppliersPage /></AppLayout>
+          {/* <AppLayout><SuppliersPage /></AppLayout> */}
         </ProtectedRoute>
       } />
       <Route path="/purchases" element={

@@ -131,34 +131,7 @@ function ReportsPage() {
         </Card>
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Sales Trend */}
-        <Card title="Sales Trend" subtitle={`Sales performance over time (${period}ly)`}>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={reportData?.salesTrend || []}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="sales" stroke="#B45309" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
-        </Card>
-
-        {/* Top Products Bar Chart */}
-        <Card title="Top Products" subtitle="Best performing products">
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={reportData?.topProducts || []}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="sales" fill="#B45309" />
-            </BarChart>
-          </ResponsiveContainer>
-        </Card>
-      </div>
+      {/* Charts removed as requested */}
 
       {/* Tables */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

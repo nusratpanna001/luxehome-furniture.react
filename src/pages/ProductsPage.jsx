@@ -1,11 +1,14 @@
 import { useState, useMemo } from 'react';
+import { useCart } from '../contexts/CartContext';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Search, Filter, Grid, List, ShoppingCart, Heart, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { LOGO_URL } from '../lib/constants';
 import Button from '../components/ui/Button';
 import Footer from '../components/layout/Footer';
 import Input from '../components/ui/Input';
 import Select from '../components/ui/Select';
+import NavBar from '../components/layout/NavBar';
 
 function usdToBdt(usd) {
   const rate = 110; // Example: 1 USD = 110 BDT
@@ -13,11 +16,13 @@ function usdToBdt(usd) {
 }
 
 function ProductsPage() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('name');
   const [viewMode, setViewMode] = useState('grid');
+  const { addToCart } = useCart();
 
   const categories = [
     { value: 'all', label: 'All Categories' },
@@ -33,11 +38,11 @@ function ProductsPage() {
 
   const priceRanges = [
     { value: 'all', label: 'All Prices' },
-    { value: '0-100', label: '$0 - $100' },
-    { value: '100-300', label: '$100 - $300' },
-    { value: '300-500', label: '$300 - $500' },
-    { value: '500-800', label: '$500 - $800' },
-    { value: '800+', label: '$800+' }
+    { value: '0-100', label: `৳${usdToBdt(0)} - ৳${usdToBdt(100)}` },
+    { value: '100-300', label: `৳${usdToBdt(100)} - ৳${usdToBdt(300)}` },
+    { value: '300-500', label: `৳${usdToBdt(300)} - ৳${usdToBdt(500)}` },
+    { value: '500-800', label: `৳${usdToBdt(500)} - ৳${usdToBdt(800)}` },
+    { value: '800+', label: `৳${usdToBdt(800)}+` }
   ];
 
   const sortOptions = [
@@ -50,29 +55,29 @@ function ProductsPage() {
   const allProducts = [
     {
       id: 1,
-      name: 'Platinum Velvet Accent Chair Set',
-      price: 244.99,
+      name: 'Classic Wooden Dining Set',
+      price: 26949,
       originalPrice: 299.99,
-      category: 'chair',
+      category: 'chair',   
       rating: 4.8,
       reviews: 124,
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80',
+      image: 'img/almirah.jpeg',
       description: 'Luxurious velvet accent chair with platinum finish, perfect for modern living rooms.',
       inStock: true,
       featured: true
     },
-    {
-      id: 2,
-      name: 'Velvet Boucle Accent Chair',
-      price: 344.99,
-      category: 'chair',
-      rating: 4.9,
-      reviews: 89,
-      image: '/img/Velvet Boucle Accent Chair.jpeg',
-      description: 'Premium boucle fabric chair with ergonomic design and superior comfort.',
-      inStock: true,
-      featured: false
-    },
+    // {
+    //   id: 2,
+    //   name: 'Velvet Boucle Accent Chair',
+    //   price: 344.99,
+    //   category: 'chair',
+    //   rating: 4.9,
+    //   reviews: 89,
+    //   image: 'img/Velvet Boucle Accent Chair.jpeg',
+    //   description: 'Premium boucle fabric chair with ergonomic design and superior comfort.',
+    //   inStock: true,
+    //   featured: false
+    // },
     {
       id: 3,
       name: 'Classic Wooden Dining Set',
@@ -80,7 +85,7 @@ function ProductsPage() {
       category: 'dining',
       rating: 4.7,
       reviews: 156,
-      image: 'img/Wooden Dining Set.jpeg',
+      image: 'img/bedside.jpeg',
       description: 'Handcrafted wooden dining set with 6 chairs, perfect for family gatherings.',
       inStock: true,
       featured: true
@@ -93,7 +98,7 @@ function ProductsPage() {
       category: 'sofa',
       rating: 4.8,
       reviews: 203,
-      image: 'https://images.unsplash.com/photo-1616627566495-d1bca3c91b7f?auto=format&fit=crop&w=600&q=80',
+      image: 'img/sofa.jpeg',
       description: 'Ultra-comfortable 3-seater sofa with premium upholstery and modern design.',
       inStock: true,
       featured: true
@@ -117,7 +122,7 @@ function ProductsPage() {
       category: 'shelf',
       rating: 4.5,
       reviews: 92,
-      image: 'https://images.unsplash.com/photo-1541558869434-2840d308329a?auto=format&fit=crop&w=600&q=80',
+      image: 'img/shelf.jpeg',
       description: 'Industrial-style bookshelf with metal frame and wooden shelves.',
       inStock: false,
       featured: false
@@ -129,7 +134,7 @@ function ProductsPage() {
       category: 'dressing',
       rating: 4.7,
       reviews: 67,
-      image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80',
+      image: 'img/dressing.jpeg',
       description: 'Elegant dressing table with LED mirror and multiple storage compartments.',
       inStock: true,
       featured: false
@@ -141,7 +146,7 @@ function ProductsPage() {
       category: 'almirah',
       rating: 4.9,
       reviews: 134,
-      image: 'https://images.unsplash.com/photo-1493663284031-b7e3aaa4c4bc?auto=format&fit=crop&w=600&q=80',
+      image: 'img/bed.jpeg',
       description: 'Large 3-door wardrobe with mirror and organized internal storage.',
       inStock: true,
       featured: true
@@ -153,11 +158,23 @@ function ProductsPage() {
       category: 'bedside',
       rating: 4.4,
       reviews: 45,
-      image: 'https://images.unsplash.com/photo-1549497538-303791108f95?auto=format&fit=crop&w=600&q=80',
+      image: 'img/Minimalist Bedside Table.jpeg',
       description: 'Simple and elegant bedside table with single drawer and open shelf.',
       inStock: true,
       featured: false
-    }
+    },
+    // {
+    //   id: 9,
+    //   name: 'Wooden Dining Table Set',
+    //   price: 89.99,
+    //   category: 'bedside',
+    //   rating: 4.4,
+    //   reviews: 45,
+    //   image: 'img/WoodenDining.jpeg',
+    //   description: 'Simple and elegant bedside table with single drawer and open shelf.',
+    //   inStock: true,
+    //   featured: false
+    // }
   ];
 
   const filteredProducts = useMemo(() => {
@@ -208,7 +225,10 @@ function ProductsPage() {
   }, [searchTerm, selectedCategory, priceRange, sortBy]);
 
   const ProductCard = ({ product }) => (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
+    <div
+      className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
+      onClick={() => navigate(`/products/${product.id}`)}
+    >
       <div className="relative overflow-hidden">
         <img 
           src={product.image} 
@@ -267,6 +287,10 @@ function ProductsPage() {
             size="sm"
             disabled={!product.inStock}
             className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800"
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart(product);
+            }}
           >
             <ShoppingCart size={16} className="mr-1" />
             {product.inStock ? 'Add to Cart' : 'Sold Out'}
@@ -323,6 +347,7 @@ function ProductsPage() {
             size="sm"
             disabled={!product.inStock}
             className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800"
+            onClick={() => addToCart(product)}
           >
             <ShoppingCart size={16} className="mr-1" />
             {product.inStock ? 'Add to Cart' : 'Sold Out'}
@@ -335,7 +360,7 @@ function ProductsPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Navbar (compact) */}
-      <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
+      {/* <header className="px-4 md:px-8 fixed top-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 items-center py-2">
             <div className="flex items-center">
@@ -361,7 +386,9 @@ function ProductsPage() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
+
+      <NavBar />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-amber-50 to-amber-100 py-12 px-6 md:px-10 mt-20 md:mt-24">
